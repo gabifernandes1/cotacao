@@ -10,21 +10,19 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import InputLabel from '@mui/material/InputLabel';
+
 import axios from 'axios';
 import CircularProgress from '@mui/material/CircularProgress';
 
 export default function Home() {
-	let navigate = useNavigate();
 	const [NewPlan, setNewPlan] = useState('');
 	const [Motivo, setMotivo] = useState('');
 	let motivos = ['Insatisfação', 'Valor alto', 'Área de cobertura', 'Outro'];
-	let api = 'http://localhost:8000/';
 	const [Estados, setEstados] = useState([{}]);
 	const [Estado, setEstado] = useState('');
 	const [Cidade, setCidade] = useState('');
 	const [Cidades, setCidades] = useState([]);
+	const [cidadesFind, setCidadesFind] = useState(false);
 	const [infoAd, setInfoAd] = useState(false);
 	const [nome, setNome] = useState('');
 	const [telefone, setTelefone] = useState('');
@@ -35,7 +33,6 @@ export default function Home() {
 	const [planoantigo, setplanoantigo] = useState('');
 	const [CNPJ, setCNPJ] = useState('');
 	const [loading, setLoading] = useState(false);
-	// require('dotenv/config');
 
 	useEffect(() => {
 		fetch('./estados-cidades.json', {
@@ -53,6 +50,7 @@ export default function Home() {
 				return cidades.sigla === Estado;
 			}
 			setCidades(Estados.find(whatState).cidades);
+			setCidadesFind(true);
 		}
 	}, [Estado]);
 
@@ -60,10 +58,8 @@ export default function Home() {
 
 	async function addClient(evt) {
 		setLoading(true);
-		console.log('e');
 		if (nome && telefone && email) {
 			let objInput = {
-				// _id: id,
 				NOME: nome,
 				TELEFONE: telefone,
 				EMAIL: email,
@@ -77,7 +73,6 @@ export default function Home() {
 				OK: false,
 			};
 			await axios.post('http://localhost:8000/add', objInput);
-			// .then(alert('Adicionado'));
 			setNome('');
 			setTelefone('');
 			setEmail('');
@@ -91,7 +86,7 @@ export default function Home() {
 			setMotivo('');
 			setLoading(false);
 		} else {
-			// alert('Preencha os campos obrigatórios');
+			alert('Preencha os campos obrigatórios');
 		}
 	}
 
@@ -107,8 +102,6 @@ export default function Home() {
 				)}
 				{infoAd ? (
 					<div>
-						{/* <div className="titulo-ads">Informações adicionais</div> */}
-
 						<div className="add-info">
 							<div className="titulo-info-ads">
 								<div onClick={() => setInfoAd(false)} id="x">
@@ -140,7 +133,6 @@ export default function Home() {
 
 							<TextField
 								id="outlined-multiline-flexible"
-								// label="Multiline"
 								multiline
 								maxRows={4}
 								onChange={(e) => setObs(e.target.value)}
@@ -256,7 +248,7 @@ export default function Home() {
 									})}
 								</Select>
 							</div>
-							{Estado ? (
+							{cidadesFind ? (
 								<div id="next-box2">
 									<div className="question">Qual a sua cidade?</div>
 									<Select
@@ -280,9 +272,7 @@ export default function Home() {
 						<FormControl>
 							<RadioGroup
 								aria-labelledby="demo-radio-buttons-group-label"
-								// defaultValue="female"
 								name="radio-buttons-group"
-								// onChange={(e) => console.log(e.target.value)}
 								onChange={(e) => setCNPJ(e.target.value)}
 								value={CNPJ}
 							>

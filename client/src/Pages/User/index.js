@@ -4,15 +4,7 @@ import * as XLSX from 'xlsx';
 
 import './index.css';
 import TextField from '@mui/material/TextField';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
 import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
-import InputLabel from '@mui/material/InputLabel';
 import axios from 'axios';
 import { GoogleLogin } from 'react-google-login';
 import Checkbox from '@mui/material/Checkbox';
@@ -24,14 +16,14 @@ import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 export default function User() {
 	const [clientes, setClientes] = useState([]);
-	const [adm, setadm] = useState(true);
+	const [adm, setadm] = useState(false);
 	const [login, setLogin] = useState(false);
 	const [email, setemail] = useState('');
 	const [senha, setsenha] = useState('');
 	const [Lista, setLista] = useState('3');
 	const [check, setCheck] = useState(false);
 	const [loading, setLoading] = useState(false);
-	// const [Checked, setChecked] = useState();
+
 	let date = new Date();
 	let dia = date.getDate();
 	let mes = date.getMonth() + 1;
@@ -85,7 +77,7 @@ export default function User() {
 		});
 		setLoading(false);
 	}
-	const clientId = process.env.CLIENT_ID;
+	const clientId = process.env.REACT_APP_CLIENT_ID;
 
 	const responseGoogle = (response) => {
 		console.log(response, 'response');
@@ -113,24 +105,28 @@ export default function User() {
 
 	return (
 		<div className="user">
-			{loading == true ? (
+			{loading == true && adm == true ? (
 				<div id="loading">
 					<CircularProgress />
 				</div>
 			) : (
 				''
 			)}
-			<div className="barra-de-navegacao">
-				<div onClick={() => setLista('1')} className="icon">
-					<CheckCircleIcon />
+			{adm == true ? (
+				<div className="barra-de-navegacao">
+					<div onClick={() => setLista('1')} className="icon">
+						<CheckCircleIcon />
+					</div>
+					<div onClick={() => setLista('2')} className="icon">
+						<CancelIcon />
+					</div>
+					<div onClick={() => setLista('3')} className="icon">
+						<FormatListBulletedIcon />
+					</div>
 				</div>
-				<div onClick={() => setLista('2')} className="icon">
-					<CancelIcon />
-				</div>
-				<div onClick={() => setLista('3')} className="icon">
-					<FormatListBulletedIcon />
-				</div>
-			</div>
+			) : (
+				''
+			)}
 			{adm == true ? (
 				<div id="tabela">
 					<table id="table">
@@ -152,16 +148,17 @@ export default function User() {
 							}}
 						/>
 						<tr className="header-table">
+							<td></td>
 							<td>NOME</td>
 							<td>EMAIL</td>
 							<td>TELEFONE</td>
-							<td>LOCALIZACAO</td>
+							<td>LOCALIZAÇÃO</td>
 							<td>CNPJ</td>
-							<td>QT</td>
-							<td>PREFERENCIA</td>
-							<td>OBSERVACOES</td>
-							<td>PLANOANTIGO</td>
-							<td>MOTIVO</td>
+							<td>QT. DE PESSOAS</td>
+							<td>PREFERÊNCIA</td>
+							<td>OBSERVAÇÕES</td>
+							<td>PLANO ANTIGO</td>
+							<td>MOTIVO DA DESISTÊNCIA</td>
 						</tr>
 
 						{Lista == '1' ? (
@@ -170,21 +167,6 @@ export default function User() {
 									if (cliente.OK == true) {
 										return (
 											<tr className="lines">
-												<td>{cliente.NOME} </td>
-												<td>{cliente.EMAIL} </td>
-												<td>{cliente.TELEFONE}</td>
-												<td>{cliente.LOCALIZACAO} </td>
-												<td>{cliente.CNPJ} </td>
-												<td>{cliente.QT} </td>
-												<td>{cliente.PREFERENCIA} </td>
-												<td>{cliente.OBSERVACOES} </td>
-												<td>{cliente.PLANOANTIGO} </td>
-												<td>{cliente.MOTIVO} </td>
-												{/* <a
-											target="_blank"
-											href={`https://web.whatsapp.com/send?phone=${cliente.TELEFONE}&text&app_absent=0`}
-										> */}
-
 												<td>
 													{cliente.OK == true ? (
 														<div id="no-color">true</div>
@@ -200,6 +182,20 @@ export default function User() {
 														// value={(e) => console.log(e, 'aa')}
 													/>
 												</td>
+												<td>{cliente.NOME} </td>
+												<td>{cliente.EMAIL} </td>
+												<td>{cliente.TELEFONE}</td>
+												<td>{cliente.LOCALIZACAO} </td>
+												<td>{cliente.CNPJ} </td>
+												<td>{cliente.QT} </td>
+												<td>{cliente.PREFERENCIA} </td>
+												<td id="obs">{cliente.OBSERVACOES} </td>
+												<td>{cliente.PLANOANTIGO} </td>
+												<td>{cliente.MOTIVO} </td>
+												{/* <a
+											target="_blank"
+											href={`https://web.whatsapp.com/send?phone=${cliente.TELEFONE}&text&app_absent=0`}
+										> */}
 											</tr>
 										);
 									}
@@ -213,21 +209,6 @@ export default function User() {
 											if (cliente.OK == false) {
 												return (
 													<tr className="lines">
-														<td>{cliente.NOME} </td>
-														<td>{cliente.EMAIL} </td>
-														<td>{cliente.TELEFONE}</td>
-														<td>{cliente.LOCALIZACAO} </td>
-														<td>{cliente.CNPJ} </td>
-														<td>{cliente.QT} </td>
-														<td>{cliente.PREFERENCIA} </td>
-														<td>{cliente.OBSERVACOES} </td>
-														<td>{cliente.PLANOANTIGO} </td>
-														<td>{cliente.MOTIVO} </td>
-														{/* <a
-													target="_blank"
-													href={`https://web.whatsapp.com/send?phone=${cliente.TELEFONE}&text&app_absent=0`}
-												> */}
-
 														<td>
 															{cliente.OK == true ? (
 																<div id="no-color">true</div>
@@ -243,6 +224,21 @@ export default function User() {
 																// value={(e) => console.log(e, 'aa')}
 															/>
 														</td>
+
+														<td>{cliente.NOME} </td>
+														<td>{cliente.EMAIL} </td>
+														<td>{cliente.TELEFONE}</td>
+														<td>{cliente.LOCALIZACAO} </td>
+														<td>{cliente.CNPJ} </td>
+														<td>{cliente.QT} </td>
+														<td>{cliente.PREFERENCIA} </td>
+														<td id="obs">{cliente.OBSERVACOES} </td>
+														<td>{cliente.PLANOANTIGO} </td>
+														<td>{cliente.MOTIVO} </td>
+														{/* <a
+											target="_blank"
+											href={`https://web.whatsapp.com/send?phone=${cliente.TELEFONE}&text&app_absent=0`}
+										> */}
 													</tr>
 												);
 											}
@@ -253,22 +249,6 @@ export default function User() {
 										{clientes.map((cliente) => {
 											return (
 												<tr className="lines">
-													<td>{cliente.NOME} </td>
-													<td>{cliente.EMAIL} </td>
-													<td>{cliente.TELEFONE}</td>
-													<td>{cliente.LOCALIZACAO} </td>
-													<td>{cliente.CNPJ} </td>
-													<td>{cliente.QT} </td>
-													<td>{cliente.PREFERENCIA} </td>
-													<td>{cliente.OBSERVACOES} </td>
-													<td>{cliente.PLANOANTIGO} </td>
-													<td>{cliente.MOTIVO} </td>
-
-													{/* <a
-									target="_blank"
-									href={`https://web.whatsapp.com/send?phone=${cliente.TELEFONE}&text&app_absent=0`}
-								> */}
-
 													<td>
 														{cliente.OK == true ? (
 															<div id="no-color">true</div>
@@ -284,6 +264,21 @@ export default function User() {
 															// value={(e) => console.log(e, 'aa')}
 														/>
 													</td>
+													<td>{cliente.NOME}sss </td>
+													<td>{cliente.EMAIL} </td>
+													<td>{cliente.TELEFONE}</td>
+													<td>{cliente.LOCALIZACAO} </td>
+													<td>{cliente.CNPJ} </td>
+													<td>{cliente.QT} </td>
+													<td>{cliente.PREFERENCIA} </td>
+													<td id="obs">{cliente.OBSERVACOES} </td>
+													<td>{cliente.PLANOANTIGO} </td>
+													<td>{cliente.MOTIVO} </td>
+
+													{/* <a
+									target="_blank"
+									href={`https://web.whatsapp.com/send?phone=${cliente.TELEFONE}&text&app_absent=0`}
+								> */}
 												</tr>
 											);
 										})}

@@ -4,8 +4,12 @@
 
 .user td {
 	padding: 10px;
-	border: 0.8px solid rgb(207, 207, 207);
-	background-color: white;
+	/* border: 0.8px solid rgb(207, 207, 207); */
+	/* background-color: white; */
+}
+.lines {
+	/* display: grid; */
+	/* grid-template-columns: fit-content; */
 }
 .user #table {
 	max-height: 100px !important;
@@ -50,11 +54,11 @@
 }
 .header-table {
 	font-family: 'IBM Plex Sans Medium', sans-serif;
-	background-color: red !important;
+	background-color: rgb(3, 109, 128) !important;
+	color: white;
+	align-items: center;
 }
-.lines {
-	border: 10px solid red;
-}
+
 .barra-de-navegacao {
 	position: absolute;
 
@@ -87,6 +91,7 @@
 	align-items: center;
 	justify-content: center;
 	border-radius: 100%;
+	opacity: 70%;
 }
 .user .icon .css-i4bv87-MuiSvgIcon-root {
 	height: 50px;
@@ -124,4 +129,16 @@
 #no-color {
 	color: transparent;
 	font-size: 0rem;
+}
+#obs {
+	overflow: auto;
+	max-width: 5vw;
+	/* height: 10px; */
+	max-height: 20px !important;
+}
+#obs #text {
+	color: red;
+}
+.lines {
+	background-color: white;
 }

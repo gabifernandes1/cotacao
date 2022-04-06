@@ -9,16 +9,11 @@
 	align-items: center;
 	font-weight: bolder;
 	display: flex;
-	/* margin-top: 10px;
-	margin-bottom: 10px; */
-	/* flex-direction: column; */
-	/* padding: 2px 0px 2px 0px; */
 }
 .all .titulo-geral {
 	min-width: 400px;
 	width: 20vw;
 	height: 9vh;
-	/* padding: 50px 45px 50px 45px; */
 	border-radius: 28px 28px 0% 0%;
 	color: white;
 	margin-bottom: -4.5vh;
@@ -38,7 +33,6 @@
 	width: 22vw;
 	min-width: 376px;
 	min-height: 562px;
-	/* min-width: 400px; */
 	padding: 40px 40px 40px 40px;
 	overflow: auto;
 }
@@ -192,7 +186,6 @@
 	color: red;
 	font-size: 1.2rem;
 	margin-top: -1vh;
-	/* padding-bottom: 3vh; */
 	margin-left: -1vw;
 	color: white;
 	width: fit-content;
@@ -201,7 +194,6 @@
 	height: 20px;
 	width: 20px;
 	font-size: 1rem;
-	/* padding-bottom: 20px; */
 	border-radius: 100%;
 	display: flex;
 	justify-content: center;
@@ -212,7 +204,6 @@
 	font-weight: 100;
 }
 #x div {
-	/* margin-bottom: 10vh; */
 }
 #x:hover {
 	font-family: 'IBM Plex Sans Light', sans-serif !important;
